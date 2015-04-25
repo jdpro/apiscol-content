@@ -3,9 +3,13 @@ package fr.ac_versailles.crdp.apiscol.content.previews;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import fr.ac_versailles.crdp.apiscol.ParametersKeys;
+import fr.ac_versailles.crdp.apiscol.content.ResourceApi;
 import fr.ac_versailles.crdp.apiscol.utils.LogUtility;
 
 public class PreviewMakersFactory {
@@ -16,14 +20,15 @@ public class PreviewMakersFactory {
 			"application/vnd.ms-powerpoint",
 			"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 			"application/vnd.openxmlformats-officedocument.presentationml.presentation",
-			"application/vnd.oasis.opendocument.text",
-			"application/rtf" };
+			"application/vnd.oasis.opendocument.text", "application/rtf" };
 	static String[] images = { "image/tiff", "image/jpeg", "image/png" };
-	static String[] videos = { "video/x-ms-wmv", "video/x-m4v", "video/flv", "video/x-flv",
-			"video/ogg", "video/avi" };
+	static String[] videos = { "video/x-ms-wmv", "video/x-m4v", "video/flv",
+			"video/x-flv", "video/ogg", "video/avi" };
+	static String[] epub = { "application/epub+zip" };
 
 	public enum MimeTypeGroups {
-		PDF(pdf), OFFICE_DOCUMENTS(officedocs), IMAGES(images), VIDEOS(videos);
+		PDF(pdf), OFFICE_DOCUMENTS(officedocs), IMAGES(images), VIDEOS(videos), EPUB(
+				epub);
 
 		private String[] types;
 
@@ -48,7 +53,8 @@ public class PreviewMakersFactory {
 
 	public static IPreviewMaker getPreviewMaker(String mimeType,
 			String resourceId, String previewsRepoPath, String entryPoint,
-			boolean isRemote, String realPath, String previewUri) {
+			boolean isRemote, String realPath, String previewUri,
+			ServletContext context) {
 		if (logger == null)
 			createLogger();
 		logger.info("Askin preview maker for mime type : " + mimeType);
@@ -75,6 +81,14 @@ public class PreviewMakersFactory {
 		if (MimeTypeGroups.OFFICE_DOCUMENTS.list().contains(mimeType))
 			return new MsDocumentPreviewMaker(resourceId, previewsRepoPath,
 					entryPoint, realPath, previewUri);
+		if (MimeTypeGroups.EPUB.list().contains(mimeType))
+			if (StringUtils.equals(ResourceApi.getProperty(
+					ParametersKeys.epubPreviewQuality, context), "low"))
+				return new EpubJPegPreviewMaker(resourceId, previewsRepoPath,
+						entryPoint, realPath, previewUri);
+			else
+				return new EpubMonoclePreviewMaker(resourceId,
+						previewsRepoPath, entryPoint, realPath, previewUri);
 		if (MimeTypeGroups.VIDEOS.list().contains(mimeType))
 			return new VideoPreviewMaker(resourceId, previewsRepoPath,
 					entryPoint, realPath, previewUri);
