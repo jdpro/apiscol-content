@@ -33,7 +33,7 @@ public interface IEntitiesRepresentationBuilder<T> {
 
 	T getCompleteResourceListRepresentation(String realPath, UriInfo uriInfo,
 			String apiscolInstanceName, int start, int rows, String editUri)
-			throws DBAccessException;
+			throws DBAccessException, Exception;
 
 	T selectResourceFollowingCriterium(String realPath, UriInfo uriInfo,
 			String apiscolInstanceName, ISearchEngineResultHandler handler,

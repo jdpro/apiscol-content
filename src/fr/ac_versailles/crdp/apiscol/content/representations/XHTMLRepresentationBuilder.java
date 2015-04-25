@@ -45,7 +45,7 @@ public class XHTMLRepresentationBuilder extends
 	@Override
 	public String getCompleteResourceListRepresentation(String realPath,
 			UriInfo uriInfo, String apiscolInstanceName, int start, int rows,
-			String editUri) throws DBAccessException {
+			String editUri) throws Exception {
 		return HTMLUtils.WrapInHTML5Headers((Document) XMLUtils.xsltTransform(
 				realPath + "/xsl/resourcesListXMLToHTMLTransformer.xsl",
 				(Document) innerBuilder.getCompleteResourceListRepresentation(

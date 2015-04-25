@@ -253,10 +253,7 @@ public class MaintenanceApi {
 			@QueryParam(value = "format") final String format,
 			@Context HttpServletRequest request,
 			@Context ServletContext context, @Context UriInfo uriInfo)
-			throws SearchEngineErrorException,
-			SearchEngineCommunicationException, DBAccessException,
-			FileSystemAccessException, ResourceDirectoryNotFoundException,
-			UnknownMediaTypeForResponseException {
+			throws Exception {
 		KeyLock keyLock = null;
 		IEntitiesRepresentationBuilder<?> rb = null;
 		try {

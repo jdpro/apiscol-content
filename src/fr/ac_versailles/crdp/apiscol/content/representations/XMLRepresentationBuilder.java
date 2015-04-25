@@ -333,7 +333,7 @@ public class XMLRepresentationBuilder extends
 	@Override
 	public Document getCompleteResourceListRepresentation(String realPath,
 			UriInfo uriInfo, String apiscolInstanceName, int start, int rows,
-			String editUri) throws DBAccessException {
+			String editUri) throws Exception {
 		ArrayList<String> resourcesList = getResourcesList();
 		Document response = XMLUtils.createXMLDocument();
 		Element rootElement = response.createElement("feed");

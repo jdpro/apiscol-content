@@ -285,11 +285,7 @@ public class ResourceApi extends ApiscolApi {
 	 * @param uriInfo
 	 * @return Resource list representation with hits and text excerpts in case
 	 *         og query with search words
-	 * @throws DBAccessException
-	 * @throws SearchEngineErrorException
-	 * @throws InexistentResourceInDatabaseException
-	 * @throws ResourceDirectoryNotFoundException
-	 * @throws UnknownMediaTypeForResponseException
+	 * @throws Exception
 	 */
 
 	@GET
@@ -303,10 +299,7 @@ public class ResourceApi extends ApiscolApi {
 			@DefaultValue("0") @QueryParam(value = "fuzzy") final float fuzzy,
 			@DefaultValue("0") @QueryParam(value = "start") final int start,
 			@DefaultValue("10") @QueryParam(value = "rows") final int rows)
-			throws DBAccessException, SearchEngineErrorException,
-			InexistentResourceInDatabaseException,
-			ResourceDirectoryNotFoundException,
-			UnknownMediaTypeForResponseException {
+			throws Exception {
 		String requestedFormat = guessRequestedFormat(request, format);
 		IEntitiesRepresentationBuilder<?> rb = EntitiesRepresentationBuilderFactory
 				.getRepresentationBuilder(requestedFormat, context);
@@ -1761,13 +1754,18 @@ public class ResourceApi extends ApiscolApi {
 
 		checkResidSyntax(resourceId);
 		String requestedFormat = guessRequestedFormat(request, format);
+
 		IEntitiesRepresentationBuilder<?> rb = EntitiesRepresentationBuilderFactory
 				.getRepresentationBuilder(requestedFormat, context);
 		IResourceDataHandler resourceDataHandler = DBAccessFactory
 				.getResourceDataHandler(DBTypes.mongoDB);
+		logger.info("> Asking for thumb list, file : " + requestedFormat
+				+ " , resource id : " + resourceId + " , scorm type :"
+				+ resourceDataHandler.getScormTypeForResource(resourceId));
 		ThumbExtracter thumbsExtracter = ThumbExtracterFactory
 				.getExtracter(resourceDataHandler
 						.getScormTypeForResource(resourceId));
+		logger.info("Thumbextracter : " + thumbsExtracter.getClass().getName());
 		Map<String, Point> thumbsUris = thumbsExtracter.getThumbsFromResource(
 				resourceId, resourceDataHandler,
 				ResourcesKeySyntax.removeSSL(uriInfo.getBaseUri().toString()),
