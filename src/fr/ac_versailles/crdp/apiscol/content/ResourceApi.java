@@ -85,7 +85,7 @@ import fr.ac_versailles.crdp.apiscol.utils.TimeUtils;
 public class ResourceApi extends ApiscolApi {
 
 	private static String apiscolInstanceName;
-	private static String previewsRepoPath;   
+	private static String previewsRepoPath;
 	private static ExecutorService compressionExecutor;
 	private static ExecutorService searchEngineRequestExecutor;
 	private static ExecutorService previewMakerExecutor;
@@ -112,7 +112,7 @@ public class ResourceApi extends ApiscolApi {
 		}
 	}
 
-	private void createSearchEngineQueryHandler() {  
+	private void createSearchEngineQueryHandler() {
 		String solrAddress = ResourceApi.getProperty(
 				ParametersKeys.solrAddress, context);
 		String solrSearchPath = ResourceApi.getProperty(
@@ -232,6 +232,7 @@ public class ResourceApi extends ApiscolApi {
 
 		return Response
 				.ok(response, rb.getMediaType())
+
 				.header(HttpHeaders.ETAG,
 						getEtatInRFC3339(resourceId, resourceDataHandler))
 				.build();
@@ -251,6 +252,7 @@ public class ResourceApi extends ApiscolApi {
 
 		return Response
 				.ok(response, rb.getMediaType())
+				.header("Access-Control-Allow-Origin", "*")
 				.header(HttpHeaders.ETAG,
 						getEtatInRFC3339(resourceId, resourceDataHandler))
 				.build();
@@ -327,6 +329,7 @@ public class ResourceApi extends ApiscolApi {
 				.ok(rb.getCompleteResourceListRepresentation(realPath(context),
 						uriInfo, apiscolInstanceName, start, rows,
 						ResourceApi.editUri), rb.getMediaType())
+				.header("Access-Control-Allow-Origin", "*")
 				.type(rb.getMediaType()).build();
 	}
 
