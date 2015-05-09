@@ -1,13 +1,9 @@
 package fr.ac_versailles.crdp.apiscol.content.thumbs;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import com.sun.istack.internal.logging.Logger;
 
 import fr.ac_versailles.crdp.apiscol.content.databaseAccess.IResourceDataHandler;
 import fr.ac_versailles.crdp.apiscol.content.fileSystemAccess.ResourceDirectoryInterface;
