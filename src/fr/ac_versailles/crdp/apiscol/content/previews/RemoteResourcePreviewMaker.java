@@ -30,12 +30,14 @@ public class RemoteResourcePreviewMaker extends AbstractPreviewMaker {
 						"The preview template is going to be copied and parameterized for this web page.");
 		FileInputStream is = null;
 		try {
+
 			is = new FileInputStream(realPath
 					+ "/templates/remoteresourcepreviewwidget.html");
+
 		} catch (FileNotFoundException e) {
 			trackingObject.updateStateAndMessage(
 					States.aborted,
-					"Impossible to copye the preview template : "
+					"Impossible to copy the preview template : "
 							+ e.getMessage());
 			e.printStackTrace();
 			return;
@@ -50,13 +52,14 @@ public class RemoteResourcePreviewMaker extends AbstractPreviewMaker {
 		Reader reader = new TokenReplacingReader(source, resolver);
 
 		String htmlWidgetFilePath = previewDirectoryPath + "/widget.html";
+		
 		FileUtils.writeDataToFile(reader, htmlWidgetFilePath);
 		JSonUtils.convertHtmlFileToJson(htmlWidgetFilePath, "index.html.js");
 		String pageHtml = "";
 		try {
 			pageHtml = FileUtils.readFileAsString(realPath
 					+ "/templates/previewpage.html");
-			String widgetHtml = FileUtils.readFileAsString(htmlWidgetFilePath);
+			String widgetHtml = FileUtils.readFileAsString(htmlWidgetFilePath);			
 			pageHtml = pageHtml.replace("WIDGET", widgetHtml);
 		} catch (IOException e) {
 			trackingObject.updateStateAndMessage(

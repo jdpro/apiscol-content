@@ -58,12 +58,12 @@ public class ConversionServerInterface {
 					.entity(form).post(ClientResponse.class);
 		} catch (UniformInterfaceException e2) {
 			logger.error("Request to previews web service was aborted for file"
-					+ filePath);
+					+ filePath + " with message " + e2.getMessage());
 			e2.printStackTrace();
 			return null;
 		} catch (ClientHandlerException e2) {
 			logger.error("Request to previews web service was aborted for file"
-					+ filePath);
+					+ filePath + " with message " + e2.getMessage());
 			e2.printStackTrace();
 			return null;
 		}
