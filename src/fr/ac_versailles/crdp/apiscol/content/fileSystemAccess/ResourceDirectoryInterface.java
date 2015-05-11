@@ -199,6 +199,8 @@ public class ResourceDirectoryInterface {
 
 	public static boolean deleteFile(String resourceId, String fileName)
 			throws ResourceDirectoryNotFoundException {
+		// workaround for windows
+		System.gc();
 		File resourceDirectory = getResourceDirectory(resourceId.toString());
 		File file = new File(resourceDirectory.getAbsolutePath() + "/"
 				+ fileName);
@@ -253,6 +255,8 @@ public class ResourceDirectoryInterface {
 
 	public static boolean deleteResourceDirectory(String resourceId)
 			throws ResourceDirectoryNotFoundException {
+		// workaround for windows
+		System.gc();
 		boolean success = true;
 		File resourceDirectory = getResourceDirectory(resourceId.toString());
 		File parent = resourceDirectory.getParentFile();
@@ -325,7 +329,8 @@ public class ResourceDirectoryInterface {
 
 	public static void deleteTemporaryFile(String resourceId, String fileName)
 			throws ResourceDirectoryNotFoundException {
-
+		// workaround for windows
+		System.gc();
 		File resourceDirectory = getResourceDirectory(resourceId);
 		File providedFile = new File(String.format("%s/%s%s",
 				resourceDirectory.getAbsolutePath(), temporaryFilesPrefix,
@@ -403,6 +408,8 @@ public class ResourceDirectoryInterface {
 	public static void commitZip(String resourceId, String snapshotId) {
 		File tempZip = new File(getTemporaryZipPath(resourceId, snapshotId));
 		File zip = new File(getZipPath(resourceId));
+		// workaround for windows
+		System.gc();
 		if (zip.exists())
 			zip.delete();
 		tempZip.renameTo(zip);
@@ -410,11 +417,15 @@ public class ResourceDirectoryInterface {
 
 	public static void deleteSnapshot(String resourceId, String snapshotId)
 			throws ResourceSnapshotDirectoryNotFoundException {
+		// workaround for windows
+		System.gc();
 		FileUtils
 				.deleteDir(getResourceSnapshotDirectory(resourceId, snapshotId));
 	}
 
 	public static boolean deleteResourceArchive(String resourceId) {
+		// workaround for windows
+		System.gc();
 		return new File(getZipPath(resourceId)).delete();
 	}
 
@@ -429,6 +440,8 @@ public class ResourceDirectoryInterface {
 	}
 
 	public static void deleteAllFiles() {
+		// workaround for windows
+		System.gc();
 		File resourceDir = new File(fileRepoPath);
 		for (File dir : resourceDir.listFiles()) {
 			if (!dir.getName().equals("..") && !dir.getName().equals("."))
