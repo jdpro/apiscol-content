@@ -131,8 +131,7 @@ public class MaintenanceApi {
 		IEntitiesRepresentationBuilder<?> rb = EntitiesRepresentationBuilderFactory
 				.getRepresentationBuilder(requestedFormat, context);
 		searchEngineQueryHandler.processOptimizationQuery();
-		return Response.ok(
-				rb.getSuccessfullOptimizationReport(requestedFormat, uriInfo),
+		return Response.ok(rb.getSuccessfullOptimizationReport(uriInfo),
 				rb.getMediaType()).build();
 	}
 
